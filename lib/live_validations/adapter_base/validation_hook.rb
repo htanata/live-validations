@@ -40,7 +40,7 @@ module LiveValidations
 
       # Returns either the :message specified, or the default I18n error message.
       def message_for(attribute, key,options={})
-        handwritten_message_for(attribute) || I18n.translate(key, {:scope => 'activerecord.errors.messages'}.merge(options))
+        handwritten_message_for(attribute) || ActiveRecord::Error.new(adapter_instance.active_record_instance, attribute, key).message
       end
       
       def handwritten_message_for(attribute)
