@@ -77,6 +77,8 @@ module LiveValidations
       end
       
       validates :uniqueness do |v, attribute|
+        next if v.callback.options[:live_validation] == false
+
         model_class = v.adapter_instance.active_record_instance.class.name
         v[:validators][attribute]['remote'] = "/live_validations/uniqueness?model_class=#{model_class}"
         v[:messages][attribute]['remote'] = v.message_for(attribute, :taken)
